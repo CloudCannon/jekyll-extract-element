@@ -1,20 +1,28 @@
-require 'nokogiri'
+# frozen_string_literal: true
 
-module JekyllExtractElement
-	def extract_element(html, element)
-		entries = []
-		@doc = Nokogiri::HTML::DocumentFragment.parse(html)
+require "nokogiri"
 
-		@doc.css(element).each do |node|
-			entries << {
-				"text" => node.text,
-				"node_name" => node.name,
-				"id" => node.attr("id")
-			}
-		end
+module JekyllExtract
+  def self.run(html, element)
+    entries = []
+    @doc = Nokogiri::HTML::DocumentFragment.parse(html)
 
-		entries
-	end
+    @doc.css(element).each do |node|
+      entries << {
+        "text"      => node.text,
+        "node_name" => node.name,
+        "id"        => node.attr("id"),
+      }
+    end
+
+    entries
+  end
 end
 
-Liquid::Template.register_filter(JekyllExtractElement)
+module JekyllExtractTag
+  def extract_element(html, element)
+    JekyllExtract.run(html, element)
+  end
+end
+
+Liquid::Template.register_filter(JekyllExtractTag) unless ENV["RAKE_ENV"] == "test"
