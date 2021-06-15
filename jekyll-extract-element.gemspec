@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
     'http://rubygems.org/gems/jekyll-extract-element'
   s.license       = 'MIT'
 
-  s.add_dependency "jekyll", "~> 3.3"
-  s.add_dependency "nokogiri", "1.8.2"
+  s.add_dependency "jekyll", ">= 3.0"
+  s.add_dependency "nokogiri", ">= 1.11.4"
 end
